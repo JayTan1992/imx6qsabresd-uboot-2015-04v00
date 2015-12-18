@@ -517,9 +517,18 @@ config TARGET_MX6QARM2
 config TARGET_MX6QSABREAUTO
 	bool "Support mx6qsabreauto"
 	select CPU_V7
+	select DM
+	select DM_THERMAL
 
 config TARGET_MX6SABRESD
 	bool "Support mx6sabresd"
+	select CPU_V7
+	select SUPPORT_SPL
+	select DM
+	select DM_THERMAL
+
+config TARGET_MX6CUBOXI
+	bool "Support Solid-run mx6 boards"
 	select CPU_V7
 	select SUPPORT_SPL
 
@@ -531,59 +540,13 @@ config TARGET_MX6SXSABRESD
 	bool "Support mx6sxsabresd"
 	select CPU_V7
 	select SUPPORT_SPL
-
-config TARGET_MX6SXSABREAUTO
-	bool "Support mx6sxsabreauto"
-	select CPU_V7
-
-config TARGET_MX6SX_17X17_ARM2
-	bool "Support mx6sx_17x17_arm2"
-	select CPU_V7
-
-config TARGET_MX6SX_19X19_ARM2
-	bool "Support mx6sx_19x19_arm2"
-	select CPU_V7
-
-config TARGET_MX7D_12X12_LPDDR3_ARM2
-	bool "Support mx7d_12x12_lpddr3_arm2"
-	select CPU_V7
-
-config TARGET_MX7D_12X12_DDR3_ARM2
-	bool "Support mx7d_12x12_ddr3_arm2"
-	select CPU_V7
-
-config TARGET_MX7D_19X19_LPDDR3_ARM2
-	bool "Support mx7d_19x19_lpddr3_arm2"
-	select CPU_V7
-
-config TARGET_MX7D_19X19_DDR3_ARM2
-	bool "Support mx7d_19x19_ddr3_arm2"
-	select CPU_V7
-
-config TARGET_MX7DSABRESD
-	bool "Support mx7dsabresd"
-	select CPU_V7
-
-config TARGET_MX6UL_14X14_EVK
-        bool "Support mx6ul_14x14_evk"
-        select CPU_V7
-
-config TARGET_MX6UL_14X14_DDR3_ARM2
-	bool "Support mx6ul_14x14_ddr3_arm2"
-	select CPU_V7
-
-config TARGET_MX6UL_14X14_LPDDR2_ARM2
-        bool "Support mx6ul_14x14_lpddr2_arm2"
-        select CPU_V7
+	select DM
+	select DM_THERMAL
 
 config TARGET_GW_VENTANA
 	bool "Support gw_ventana"
 	select CPU_V7
 	select SUPPORT_SPL
-
-config TARGET_HUMMINGBOARD
-	bool "Support hummingboard"
-	select CPU_V7
 
 config TARGET_KOSAGI_NOVENA
 	bool "Support Kosagi Novena"
@@ -635,6 +598,9 @@ config TARGET_CM_FX6
 	bool "Support cm_fx6"
 	select CPU_V7
 	select SUPPORT_SPL
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
 
 config TARGET_SOCFPGA_ARRIA5
 	bool "Support socfpga_arria5"
@@ -659,6 +625,10 @@ config TARGET_U8500_HREF
 
 config TARGET_VF610TWR
 	bool "Support vf610twr"
+	select CPU_V7
+
+config TARGET_COLIBRI_VF
+	bool "Support Colibri VF50/61"
 	select CPU_V7
 
 config ZYNQ
@@ -869,17 +839,6 @@ source "board/freescale/mx6qsabreauto/Kconfig"
 source "board/freescale/mx6sabresd/Kconfig"
 source "board/freescale/mx6slevk/Kconfig"
 source "board/freescale/mx6sxsabresd/Kconfig"
-source "board/freescale/mx6sxsabreauto/Kconfig"
-source "board/freescale/mx6sx_17x17_arm2/Kconfig"
-source "board/freescale/mx6sx_19x19_arm2/Kconfig"
-source "board/freescale/mx7d_12x12_lpddr3_arm2/Kconfig"
-source "board/freescale/mx7d_12x12_ddr3_arm2/Kconfig"
-source "board/freescale/mx7d_19x19_lpddr3_arm2/Kconfig"
-source "board/freescale/mx7d_19x19_ddr3_arm2/Kconfig"
-source "board/freescale/mx7dsabresd/Kconfig"
-source "board/freescale/mx6ul_14x14_evk/Kconfig"
-source "board/freescale/mx6ul_14x14_ddr3_arm2/Kconfig"
-source "board/freescale/mx6ul_14x14_lpddr2_arm2/Kconfig"
 source "board/freescale/vf610twr/Kconfig"
 source "board/gateworks/gw_ventana/Kconfig"
 source "board/genesi/mx51_efikamx/Kconfig"
@@ -911,7 +870,7 @@ source "board/siemens/draco/Kconfig"
 source "board/siemens/pxm2/Kconfig"
 source "board/siemens/rut/Kconfig"
 source "board/silica/pengwyn/Kconfig"
-source "board/solidrun/hummingboard/Kconfig"
+source "board/solidrun/mx6cuboxi/Kconfig"
 source "board/spear/spear300/Kconfig"
 source "board/spear/spear310/Kconfig"
 source "board/spear/spear320/Kconfig"
@@ -930,6 +889,7 @@ source "board/ti/ti814x/Kconfig"
 source "board/ti/ti816x/Kconfig"
 source "board/timll/devkit3250/Kconfig"
 source "board/toradex/colibri_pxa270/Kconfig"
+source "board/toradex/colibri_vf/Kconfig"
 source "board/tqc/tqma6/Kconfig"
 source "board/trizepsiv/Kconfig"
 source "board/ttcontrol/vision2/Kconfig"

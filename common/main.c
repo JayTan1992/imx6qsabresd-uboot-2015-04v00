@@ -12,10 +12,6 @@
 #include <cli.h>
 #include <version.h>
 
-#ifdef is_boot_from_usb
-#include <environment.h>
-#endif
-
 DECLARE_GLOBAL_DATA_PTR;
 
 /*

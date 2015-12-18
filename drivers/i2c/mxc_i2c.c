@@ -114,9 +114,6 @@ static u16 i2c_clk_div[50][2] = {
 #ifndef CONFIG_SYS_MXC_I2C3_SPEED
 #define CONFIG_SYS_MXC_I2C3_SPEED 100000
 #endif
-#ifndef CONFIG_SYS_MXC_I2C4_SPEED
-#define CONFIG_SYS_MXC_I2C4_SPEED 100000
-#endif
 
 #ifndef CONFIG_SYS_MXC_I2C1_SLAVE
 #define CONFIG_SYS_MXC_I2C1_SLAVE 0
@@ -126,9 +123,6 @@ static u16 i2c_clk_div[50][2] = {
 #endif
 #ifndef CONFIG_SYS_MXC_I2C3_SLAVE
 #define CONFIG_SYS_MXC_I2C3_SLAVE 0
-#endif
-#ifndef CONFIG_SYS_MXC_I2C4_SLAVE
-#define CONFIG_SYS_MXC_I2C4_SLAVE 0
 #endif
 
 
@@ -173,6 +167,9 @@ static int bus_i2c_set_bus_speed(void *base, int speed)
 	struct mxc_i2c_regs *i2c_regs = (struct mxc_i2c_regs *)base;
 	u8 clk_idx = i2c_imx_get_clk(speed);
 	u8 idx = i2c_clk_div[clk_idx][1];
+
+	if (!base)
+		return -ENODEV;
 
 	/* Store divider value */
 	writeb(idx, &i2c_regs->ifdr);
@@ -246,17 +243,6 @@ static void i2c_imx_stop(struct mxc_i2c_regs *i2c_regs)
 }
 
 /*
- * Stub implementations for outer i2c slave operations
- * Any board has special requirement (i.mx6slevk) can
- * overwrite the function
- */
-void __i2c_force_reset_slave(void)
-{
-}
-void i2c_force_reset_slave(void)
-	__attribute__((weak, alias("__i2c_force_reset_slave")));
-
-/*
  * Send start signal, chip address and
  * write register address
  */
@@ -265,9 +251,6 @@ static int i2c_init_transfer_(struct mxc_i2c_regs *i2c_regs,
 {
 	unsigned int temp;
 	int ret;
-
-	/* Reset i2c slave */
-	i2c_force_reset_slave();
 
 	/* Enable I2C controller */
 #ifdef I2C_QUIRK_REG
@@ -350,6 +333,9 @@ int bus_i2c_read(void *base, uchar chip, uint addr, int alen, uchar *buf,
 	int i;
 	struct mxc_i2c_regs *i2c_regs = (struct mxc_i2c_regs *)base;
 
+	if (!base)
+		return -ENODEV;
+
 	ret = i2c_init_transfer(i2c_regs, chip, addr, alen);
 	if (ret < 0)
 		return ret;
@@ -409,6 +395,9 @@ int bus_i2c_write(void *base, uchar chip, uint addr, int alen,
 	int i;
 	struct mxc_i2c_regs *i2c_regs = (struct mxc_i2c_regs *)base;
 
+	if (!base)
+		return -ENODEV;
+
 	ret = i2c_init_transfer(i2c_regs, chip, addr, alen);
 	if (ret < 0)
 		return ret;
@@ -422,38 +411,23 @@ int bus_i2c_write(void *base, uchar chip, uint addr, int alen,
 	return ret;
 }
 
+#if !defined(I2C2_BASE_ADDR)
+#define I2C2_BASE_ADDR	NULL
+#endif
+
+#if !defined(I2C3_BASE_ADDR)
+#define I2C3_BASE_ADDR	NULL
+#endif
+
+#if !defined(I2C4_BASE_ADDR)
+#define I2C4_BASE_ADDR	NULL
+#endif
+
 static void * const i2c_bases[] = {
-#if defined(CONFIG_MX25)
-	(void *)IMX_I2C_BASE,
-	(void *)IMX_I2C2_BASE,
-	(void *)IMX_I2C3_BASE
-#elif defined(CONFIG_MX27)
-	(void *)IMX_I2C1_BASE,
-	(void *)IMX_I2C2_BASE
-#elif defined(CONFIG_MX31) || defined(CONFIG_MX35) || \
-	defined(CONFIG_MX51) || defined(CONFIG_MX53) ||	\
-	defined(CONFIG_MX6) || defined(CONFIG_LS102XA)
-	(void *)I2C1_BASE_ADDR,
-	(void *)I2C2_BASE_ADDR,
-	(void *)I2C3_BASE_ADDR,
-#if defined(CONFIG_MX6SX) || defined(CONFIG_MX6UL)
-	(void *)I2C4_BASE_ADDR
-#endif
-#elif defined(CONFIG_MX7)
 	(void *)I2C1_BASE_ADDR,
 	(void *)I2C2_BASE_ADDR,
 	(void *)I2C3_BASE_ADDR,
 	(void *)I2C4_BASE_ADDR
-#elif defined(CONFIG_VF610)
-	(void *)I2C0_BASE_ADDR
-#elif defined(CONFIG_FSL_LSCH3)
-	(void *)I2C1_BASE_ADDR,
-	(void *)I2C2_BASE_ADDR,
-	(void *)I2C3_BASE_ADDR,
-	(void *)I2C4_BASE_ADDR
-#else
-#error "architecture not supported"
-#endif
 };
 
 struct i2c_parms {
@@ -573,19 +547,10 @@ U_BOOT_I2C_ADAP_COMPLETE(mxc1, mxc_i2c_init, mxc_i2c_probe,
 			 CONFIG_SYS_MXC_I2C2_SLAVE, 1)
 #if defined(CONFIG_MX31) || defined(CONFIG_MX35) ||\
 	defined(CONFIG_MX51) || defined(CONFIG_MX53) ||\
-	defined(CONFIG_MX6) || defined(CONFIG_LS102XA) ||\
-	defined(CONFIG_MX7)
+	defined(CONFIG_MX6) || defined(CONFIG_LS102XA)
 U_BOOT_I2C_ADAP_COMPLETE(mxc2, mxc_i2c_init, mxc_i2c_probe,
 			 mxc_i2c_read, mxc_i2c_write,
 			 mxc_i2c_set_bus_speed,
 			 CONFIG_SYS_MXC_I2C3_SPEED,
 			 CONFIG_SYS_MXC_I2C3_SLAVE, 2)
-#endif
-
-#if defined(CONFIG_MX7) || defined(CONFIG_MX6SX) || defined(CONFIG_MX6UL)
-U_BOOT_I2C_ADAP_COMPLETE(mxc3, mxc_i2c_init, mxc_i2c_probe,
-			 mxc_i2c_read, mxc_i2c_write,
-			 mxc_i2c_set_bus_speed,
-			 CONFIG_SYS_MXC_I2C4_SPEED,
-			 CONFIG_SYS_MXC_I2C4_SLAVE, 3)
 #endif

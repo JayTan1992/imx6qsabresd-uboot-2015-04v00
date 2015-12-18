@@ -45,10 +45,6 @@
 #include <miiphy.h>
 #endif
 
-#ifdef CONFIG_FASTBOOT
-#include <fastboot.h>
-#endif
-
 DECLARE_GLOBAL_DATA_PTR;
 
 ulong monitor_flash_len;
@@ -643,10 +639,6 @@ void board_init_r(gd_t *id, ulong dest_addr)
 	board_late_init();
 #endif
 
-#ifdef CONFIG_FASTBOOT
-	fastboot_setup();
-#endif
-
 #ifdef CONFIG_BITBANGMII
 	bb_miiphy_init();
 #endif
@@ -684,10 +676,6 @@ void board_init_r(gd_t *id, ulong dest_addr)
 		sprintf((char *)memsz, "%ldk", (gd->ram_size / 1024) - pram);
 		setenv("mem", (char *)memsz);
 	}
-#endif
-
-#ifdef CONFIG_FASTBOOT
-	check_fastboot();
 #endif
 
 	/* main_loop() can return to retry autoboot, if so just run it again. */

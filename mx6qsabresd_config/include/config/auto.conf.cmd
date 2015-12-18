@@ -318,6 +318,7 @@ deps_config := \
 	board/ttcontrol/vision2/Kconfig \
 	board/trizepsiv/Kconfig \
 	board/tqc/tqma6/Kconfig \
+	board/toradex/colibri_vf/Kconfig \
 	board/toradex/colibri_pxa270/Kconfig \
 	board/timll/devkit3250/Kconfig \
 	board/ti/ti816x/Kconfig \
@@ -336,7 +337,7 @@ deps_config := \
 	board/spear/spear320/Kconfig \
 	board/spear/spear310/Kconfig \
 	board/spear/spear300/Kconfig \
-	board/solidrun/hummingboard/Kconfig \
+	board/solidrun/mx6cuboxi/Kconfig \
 	board/silica/pengwyn/Kconfig \
 	board/siemens/rut/Kconfig \
 	board/siemens/pxm2/Kconfig \
@@ -368,17 +369,6 @@ deps_config := \
 	board/genesi/mx51_efikamx/Kconfig \
 	board/gateworks/gw_ventana/Kconfig \
 	board/freescale/vf610twr/Kconfig \
-	board/freescale/mx6ul_14x14_lpddr2_arm2/Kconfig \
-	board/freescale/mx6ul_14x14_ddr3_arm2/Kconfig \
-	board/freescale/mx6ul_14x14_evk/Kconfig \
-	board/freescale/mx7dsabresd/Kconfig \
-	board/freescale/mx7d_19x19_ddr3_arm2/Kconfig \
-	board/freescale/mx7d_19x19_lpddr3_arm2/Kconfig \
-	board/freescale/mx7d_12x12_ddr3_arm2/Kconfig \
-	board/freescale/mx7d_12x12_lpddr3_arm2/Kconfig \
-	board/freescale/mx6sx_19x19_arm2/Kconfig \
-	board/freescale/mx6sx_17x17_arm2/Kconfig \
-	board/freescale/mx6sxsabreauto/Kconfig \
 	board/freescale/mx6sxsabresd/Kconfig \
 	board/freescale/mx6slevk/Kconfig \
 	board/freescale/mx6sabresd/Kconfig \

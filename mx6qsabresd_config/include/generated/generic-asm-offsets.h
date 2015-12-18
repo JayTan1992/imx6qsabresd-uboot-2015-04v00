@@ -8,7 +8,7 @@
 
 #define GENERATED_GBL_DATA_SIZE 256 /* (sizeof(struct global_data) + 15) & ~15	@ */
 #define GENERATED_BD_INFO_SIZE 80 /* (sizeof(struct bd_info) + 15) & ~15	@ */
-#define GD_SIZE 248 /* sizeof(struct global_data)	@ */
+#define GD_SIZE 256 /* sizeof(struct global_data)	@ */
 #define GD_BD 0 /* offsetof(struct global_data, bd)	@ */
 #define GD_MALLOC_BASE 192 /* offsetof(struct global_data, malloc_base)	@ */
 #define GD_RELOCADDR 48 /* offsetof(struct global_data, relocaddr)	@ */
